@@ -14,4 +14,25 @@ class UserController extends Controller
         return view('users.index',compact('users'));
             
     }
+    public function create()
+    {
+       return view('users.create');
+    }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+        ]);
+    
+        $user = User::create(
+            [
+                'name' => $request->name, 
+                'email' => $request->email,                
+                'password' => "password"
+            ]); 
+     
+        return redirect()->route('users.index')
+                        ->with('success','User created successfully.');
+    }
 }

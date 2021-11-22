@@ -3,15 +3,19 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
+            <div class="row justify-content-start ml-3">
                 <h2>Laravel 8 CRUD</h2>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-success" href="#"> Create New User</a>
+            <div class="row justify-content-end m-3">
+                <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
             </div>
         </div>
     </div>
-   
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif  
     <table class="table table-bordered">
         <tr>
             <th>No</th>
@@ -37,3 +41,4 @@
         </tr>
         @endforeach
     </table>
+    {!! $users->links() !!}
