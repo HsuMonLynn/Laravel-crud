@@ -14,8 +14,9 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::resource('users', UserController::class);
 
+Route::resource('users', UserController::class);
+// Route::get('/',[UserController::class, 'index']);
 
 // Route::get('/', function () {
 //     return view('welcome');

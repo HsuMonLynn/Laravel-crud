@@ -30,10 +30,7 @@
             <td>{{ $user->email }}</td>
             <td>
                 <form action="">
-   
-                    <a class="btn btn-info" href="#">Show</a>
-    
-                    <a class="btn btn-primary" href="#">Edit</a>
+                    <a class="btn btn-primary" href="{{route('users.update',$user->id)}}">Edit</a>
       
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
