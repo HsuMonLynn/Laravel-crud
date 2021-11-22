@@ -51,11 +51,16 @@ class UserController extends Controller
                         ->with('success','User updated suceessfully.');
 
     }
-    public function edit(User $user)
+    public function show(User $user)
     {
         return view('users.edit',compact('user'));
     }
-    
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect()->route('users.index')
+                        ->with('success','User deleted successfully');
+    }
 
     
 }

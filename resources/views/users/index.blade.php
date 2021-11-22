@@ -29,9 +29,10 @@
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
             <td>
-                <form action="">
+                <form action="{{ route('users.destroy',$user->id) }}" method="POST">
                     <a class="btn btn-primary" href="{{route('users.update',$user->id)}}">Edit</a>
-      
+                    @csrf
+                    @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>
