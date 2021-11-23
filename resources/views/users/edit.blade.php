@@ -12,7 +12,7 @@
         </div>
     </div>
    
-    @if ($errors->any())
+    {{-- @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Whoops!</strong> There were some problems with your input.<br><br>
             <ul>
@@ -22,7 +22,7 @@
             </ul>
         </div>
     @endif
-  
+   --}}
     <form action="{{ route('users.update',$user->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -31,13 +31,21 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Name:</strong>
-                    <input type="text" name="name" value="{{ $user->name }}" class="form-control" placeholder="Name">
+                    <input type="text" name="name" value="{{ $user->name }}" class="form-control @error('name')
+                    is-invalid @enderror" placeholder="Name">
+                    @if($errors->has('name'))
+                        <span class="error text-danger text-bold">{{ $errors->first('name') }}</span>
+                    @endif
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Email:</strong>
-                    <input type="email" name="email" value="{{ $user->email }}" class="form-control" placeholder="Email">
+                    <input type="email" name="email" value="{{ $user->email }}" class="form-control @error('email')
+                    is-invalid @enderror" placeholder="Email">
+                    @if($errors->has('email'))
+                        <span class="error text-danger text-bold">{{ $errors->first('email') }}</span>
+                    @endif
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
