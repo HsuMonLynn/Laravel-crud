@@ -27,7 +27,11 @@ Route::delete('users/{user}',[UserController::class,'destroy'])->name('users.des
 Route::get('users/{user}/edit',[UserController::class,'edit'])->name('users.edit');
 Route::get('search',[UserController::class,'search'])->name('users.search');
 
-Route::resource('posts', PostController::class);
+// Route::resource('posts', PostController::class);
+Route::get('posts',[PostController::class, 'index'])->name('posts.index');
+Route::post('posts',[PostController::class, 'store'])->name('posts.store');
+Route::get('posts/create',[PostController::class,'create'])->name('posts.create');
+
 
 
 
