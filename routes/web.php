@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostController;
+
 
 
 /*
@@ -24,6 +26,9 @@ Route::put('users/{user}', [UserController::class,'update'])->name('users.update
 Route::delete('users/{user}',[UserController::class,'destroy'])->name('users.destroy');
 Route::get('users/{user}/edit',[UserController::class,'edit'])->name('users.edit');
 Route::get('search',[UserController::class,'search'])->name('users.search');
+
+Route::resource('posts', PostController::class);
+
 
 
 

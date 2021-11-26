@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::latest()->paginate(5);
+        $users = User::orderBy('created_at','desc')->paginate(5);
         return view('users.index',compact('users'));    
     }
     public function create()
@@ -19,10 +19,10 @@ class UserController extends Controller
     }
     public function store(UserStoreRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-        ]);
+        // $request->validate([
+        //     'name' => 'required',
+        //     'email' => 'required',
+        // ]);
     
         $user = User::create(
             [
@@ -35,10 +35,10 @@ class UserController extends Controller
                         ->with('success','User created successfully.');
     }
     public function update(UserUpdateRequest $request,User $user){
-        $request->validate([
-            'name'=>'required',
-            'email'=>'required'
-        ]);
+        // $request->validate([
+        //     'name'=>'required',
+        //     'email'=>'required'
+        // ]);
 
         $user->update([
                 'name' => $request->name, 
