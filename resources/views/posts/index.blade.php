@@ -1,5 +1,4 @@
 @extends('users.layout')
- 
 @section('content')
     <div class="row" style="margin-top: 5rem;">
         <div class="col-lg-12 margin-tb">
@@ -37,7 +36,7 @@
             <td>{{ $post->created_at->format('d-m-Y')}}</td>
             <td>
                 <form action="" method="POST">
-                    <a class="btn btn-primary" href="">Edit</a>
+                    <a class="btn btn-primary" href="{{route('posts.update',$post->id)}}">Edit</a>
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete</button>
