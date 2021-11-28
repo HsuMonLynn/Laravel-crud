@@ -35,7 +35,7 @@
             <td>{{ $post->author->name }}</td>
             <td>{{ $post->created_at->format('d-m-Y')}}</td>
             <td>
-                <form action="" method="POST">
+                <form action="{{route('posts.destroy',$post->id)}}" method="POST">
                     <a class="btn btn-primary" href="{{route('posts.update',$post->id)}}">Edit</a>
                     @csrf
                     @method('DELETE')
