@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Http\Requests\PostStoreRequest;
+use App\Http\Requests\UserSearchRequest;
 use App\Http\Requests\PostUpdateRequest;
 use Illuminate\Http\Request;
 
@@ -52,6 +53,17 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('posts.index')
                         ->with('success','Post Deleted successfully.');
+    }
+    public function search(UserSearchRequest $request){
+        $search = $request->search;
+        $posts = Post::where('title', 'LIKE', '%' . $search . '%' )
+                ->orWhere('body', 'LIKE', '%' . $search . '%' )
+                ->orWhere('id', 'LIKE', '%' . $search . '%' )
+                ->orWhereHas('author', function ($query) use ($search) {
+                    $query->where('name', 'like', '%'.$search.'%');
+                })
+                ->get();
+        return view('posts.index',compact('posts'));
     }
 
     

@@ -5,9 +5,19 @@
             <div class="row justify-content-center">
                 <h2>Laravel 8 CRUD</h2>
             </div>
-            <div class="row justify-content-end m-3">
-                <a class="btn btn-success" href="{{ route('posts.create') }}"> Create New Post</a>
-            </div>
+            <div class="row justify-content-start">
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <form class="row ml-3" action="{{ route('posts.search') }}" method="GET">
+                            <input type="text" name="search"/>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-4 ml-auto">
+                    <a class="btn btn-success" href="{{ route('posts.create') }}"> Create New Post</a>
+                </div>
+            </div>    
         </div>
     </div>
    
@@ -50,5 +60,5 @@
         </div>
         @endif
     </table> 
-    {!! $posts->links('pagination::bootstrap-4') !!}      
+    {{-- {!! $posts->links('pagination::bootstrap-4') !!}       --}}
 @endsection
