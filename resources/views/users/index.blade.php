@@ -8,15 +8,15 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
+                    <a class="btn btn-success " href="{{ route('users.create') }}"> Create New User</a>
+                </div>
+                <div class="col-md-4 ml-auto pl-5">
                     <div class="input-group mb-3">
                         <form class="row ml-3" action="{{ route('users.search') }}" method="GET">
                             <input type="text" name="search"/>
-                            <button type="submit" class="btn btn-primary">Search</button>
+                            <button type="submit" class="btn btn-primary ml-1">Search</button>
                         </form>
                     </div>
-                </div>
-                <div class="col-md-4 ml-auto">
-                    <a class="btn btn-success " href="{{ route('users.create') }}"> Create New User</a>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
             <th>No</th>
             <th>Name</th>
             <th>Email</th>
-            <th width="280px">Action</th>
+            <th width="180px">Action</th>
         </tr>
         @if($users->isNotEmpty())
         @foreach ($users as $user)
@@ -41,19 +41,21 @@
             <td>{{ $user->email }}</td>
             <td>
                 <form action="{{ route('users.destroy',$user->id) }}" method="POST">
-                    <a class="btn btn-primary" href="{{route('users.update',$user->id)}}">Edit</a>
+                    <a class="btn btn-outline-info" href="{{route('users.update',$user->id)}}">Edit</a>
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-outline-danger">Delete</button>
                 </form>
             </td>
         </tr>
         @endforeach
         @else
-        <div>
-            <h2>No users found</h2>
+        <div class="row justify-content-center">
+            <h2 class="text-info">No users found</h2>
         </div>
         @endif
     </table>
-    {!! $users->links('pagination::bootstrap-4') !!}
+    @isset($users)
+        {!! $users->appends(request()->query())->links('pagination::bootstrap-4') !!}
+    @endisset
     @endsection

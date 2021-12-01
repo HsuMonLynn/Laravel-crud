@@ -11,7 +11,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::orderBy('created_at','desc')->paginate(8);
+        $posts = Post::orderBy('created_at','desc')->paginate(5);
         return view('posts.index',compact('posts'));    
     }
     public function create()
@@ -24,7 +24,7 @@ class PostController extends Controller
             [
                 'title' => $request->title, 
                 'body' => $request->body,
-                'user_id' => $request->user_id           
+                'user_id' => $request->user_id,           
             ]); 
      
         return redirect()->route('posts.index')
@@ -62,7 +62,7 @@ class PostController extends Controller
                 ->orWhereHas('author', function ($query) use ($search) {
                     $query->where('name', 'like', '%'.$search.'%');
                 })
-                ->get();
+                ->orderBy('created_at','desc')->paginate(5);
         return view('posts.index',compact('posts'));
     }
 

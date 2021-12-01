@@ -65,9 +65,9 @@ class UserController extends Controller
         $search = $request->input('search');
         $users = User::where ( 'name', 'LIKE', '%' . $search . '%' )
                 ->orWhere ( 'email', 'LIKE', '%' . $search . '%' )
-                ->get ();
+                ->orWhere ( 'id', 'LIKE', '%' . $search . '%' )
+                ->orderBy('created_at','desc')->paginate(5);
         return view('users.index',compact('users'));
     }
 
-    
 }
