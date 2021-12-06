@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserSearchRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
@@ -14,16 +13,16 @@ class UserController extends Controller
      * Display a listing of the users.
      *
      */
-    public function index(UserSearchRequest $request)
+    public function index()
     {
         $users = User::when($search = request('search'), function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('email', 'LIKE', '%' . $search . '%')
-                    ->orWhere('id', 'LIKE', '%' . $search . '%');
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'LIKE', '%' . $search . '%')
+                ->orWhere('id', 'LIKE', '%' . $search . '%');
         })
-        ->orderBy('created_at', 'desc')
-        ->paginate(5);
-        
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+
         return view('users.index', compact('users'));
     }
 
@@ -45,7 +44,7 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make("password"),
@@ -101,22 +100,5 @@ class UserController extends Controller
             ->route('users.index')
             ->with('success', 'User deleted successfully');
     }
-
-    /**
-     * Search the specified user from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function search(UserSearchRequest $request)
-    // {
-    //     $search = $request->search;
-    //     $users = User::where('name', 'LIKE', '%' . $search . '%')
-    //         ->orWhere('email', 'LIKE', '%' . $search . '%')
-    //         ->orWhere('id', 'LIKE', '%' . $search . '%')
-    //         ->orderBy('created_at', 'desc')->paginate(5);
-
-    //     return view('users.index', compact('users'));
-    // }
 
 }

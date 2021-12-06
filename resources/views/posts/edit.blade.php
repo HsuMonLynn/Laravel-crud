@@ -24,6 +24,17 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Body:</strong>
+                            <textarea class="form-control @error('body') 
+                            is-invalid @enderror" name="body" value="" id="" rows="4" placeholder="Body">{{ $post->body }}</textarea>
+                        </div>
+                        @if($errors->has('body'))
+                            <span
+                                class="error text-danger text-bold">{{ $errors->first('body') }}</span>
+                        @endif
+                    </div>
+                    {{-- <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Body:</strong>
                             <input type="textarea" rows="10" name="body" value="{{ $post->body }}" class="form-control @error('body')
                           is-invalid @enderror" placeholder="Body" />
                         </div>
@@ -31,8 +42,24 @@
                             <span
                                 class="error text-danger text-bold">{{ $errors->first('body') }}</span>
                         @endif
-                    </div>
+                    </div> --}}
                     <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Author</strong>
+                            <select name="user_id" class="form-control @error('user_id')
+                            is-invalid @enderror">
+                            <option value="">Select Author</option>
+                            @foreach ($authors as $author)
+                            <option value="{{$author->name}}">{{$author->name}}</option>
+                            @endforeach
+                        </select>
+                            @if($errors->has('user_id'))
+                                <span
+                                    class="error text-danger text-bold">{{ $errors }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    {{-- <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Author ID</strong>
                             <input type="text" name="user_id" value="{{ $post->user_id }}" class="form-control @error('user_id')
@@ -42,7 +69,7 @@
                                     class="error text-danger text-bold">{{ $errors->first('user_id') }}</span>
                             @endif
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="row col-md-6 offset-md-3 pt-3 pb-3">
                         <div class="col-md-6">
                             <a class="btn btn-info" href="{{ route('posts.index') }}"> Back</a>

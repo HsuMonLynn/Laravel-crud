@@ -46,7 +46,7 @@
                 <td>{{ $post->created_at->format('d-m-Y') }}</td>
                 <td>
                     <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
-                        <a class="btn btn-outline-info" href="{{ route('posts.edit', $post->id) }}">Edit</a>
+                        <a class="btn btn-outline-info mr-2" href="{{ route('posts.edit', $post->id) }}">Edit</a>
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-outline-danger"

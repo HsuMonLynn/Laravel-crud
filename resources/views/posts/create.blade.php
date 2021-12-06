@@ -23,23 +23,28 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Body:</strong>
-                            <input type="textarea" name="body" class="form-control @error('body')
-                          is-invalid @enderror" placeholder="Body">
+                            <textarea class="form-control @error('body') 
+                            is-invalid @enderror" name="body" id="" rows="4" placeholder="Body"></textarea>
                         </div>
                         @if($errors->has('body'))
                             <span
                                 class="error text-danger text-bold">{{ $errors->first('body') }}</span>
                         @endif
                     </div>
-
+            
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
-                            <strong>Author ID</strong>
-                            <input type="text" name="user_id" class="form-control @error('user_id')
-                            is-invalid @enderror" placeholder="Author ID">
+                            <strong>Author</strong>
+                            <select name="user_id" class="form-control @error('user_id')
+                            is-invalid @enderror">
+                            <option value="">Select Author</option>
+                            @foreach ($authors as $author)
+                            <option value="{{$author->name}}">{{$author->name}}</option>
+                            @endforeach
+                        </select>
                             @if($errors->has('user_id'))
                                 <span
-                                    class="error text-danger text-bold">{{ $errors->first('user_id') }}</span>
+                                    class="error text-danger text-bold">{{ $errors }}</span>
                             @endif
                         </div>
                     </div>
