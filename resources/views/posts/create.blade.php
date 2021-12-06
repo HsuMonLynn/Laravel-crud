@@ -1,55 +1,55 @@
-@extends('users.layout')
+@extends('adminlte.master')
 @section('content')
-
 <div class="card mt-3 col-md-6 offset-md-3">
     <div class="card-body">
-        <div class="card-title">
-            <h2 class="row justify-content-center">Add New Post</h2>
-        </div>
+        <h2 class="row justify-content-center">Add New Post</h2>
         <div class="p-2">
             <form action="{{ route('posts.store') }}" method="POST">
                 @csrf
-            
-                 <div class="row">
+
+                <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Title:</strong>
                             <input type="text" name="title" class="form-control @error('title')
                             is-invalid @enderror" placeholder="Title">
                             @if($errors->has('title'))
-                            <span class="error text-danger text-bold">{{ $errors->first('title') }}</span>
+                                <span
+                                    class="error text-danger text-bold">{{ $errors->first('title') }}</span>
                             @endif
                         </div>
                     </div>
-                    
+
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
-                          <strong>Body:</strong>
-                          <input type="textarea" name="body" class="form-control @error('body')
+                            <strong>Body:</strong>
+                            <input type="textarea" name="body" class="form-control @error('body')
                           is-invalid @enderror" placeholder="Body">
                         </div>
                         @if($errors->has('body'))
-                            <span class="error text-danger text-bold">{{ $errors->first('body') }}</span>
+                            <span
+                                class="error text-danger text-bold">{{ $errors->first('body') }}</span>
                         @endif
                     </div>
-            
+
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Author ID</strong>
                             <input type="text" name="user_id" class="form-control @error('user_id')
                             is-invalid @enderror" placeholder="Author ID">
                             @if($errors->has('user_id'))
-                            <span class="error text-danger text-bold">{{ $errors->first('user_id') }}</span>
+                                <span
+                                    class="error text-danger text-bold">{{ $errors->first('user_id') }}</span>
                             @endif
                         </div>
                     </div>
-            
+
                     <div class="row col-md-6 offset-md-3 pt-3 pb-3">
                         <div class="col-md-6">
                             <a class="btn btn-info" href="{{ route('posts.index') }}"> Back</a>
                         </div>
                         <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </div>
                 </div>
