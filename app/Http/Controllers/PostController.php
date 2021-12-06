@@ -14,7 +14,16 @@ class PostController extends Controller
     public function index()
     {   
         
-        $posts = Post::orderBy('created_at','desc')->paginate(5);
+        $posts = Post::when($search = request('search'),function($query) use($search){
+            $query->where('title', 'LIKE', '%' . $search . '%' )
+                ->orWhere('body', 'LIKE', '%' . $search . '%' )
+                ->orWhere('id', 'LIKE', '%' . $search . '%' )
+                ->orWhereHas('author', function ($query) use ($search) {
+                    $query->where('name', 'like', '%'.$search.'%');
+                });
+        })
+        ->orderBy('created_at','desc')
+        ->paginate(5);
 
         return view('posts.index',compact('posts'));    
     }
@@ -99,18 +108,18 @@ class PostController extends Controller
                 ->with('success','Post Deleted successfully.');
     }
 
-    public function search(UserSearchRequest $request){
-        $search = $request->search;
-        $posts = Post::where('title', 'LIKE', '%' . $search . '%' )
-                ->orWhere('body', 'LIKE', '%' . $search . '%' )
-                ->orWhere('id', 'LIKE', '%' . $search . '%' )
-                ->orWhereHas('author', function ($query) use ($search) {
-                    $query->where('name', 'like', '%'.$search.'%');
-                })
-                ->orderBy('created_at','desc')->paginate(5);
+    // public function search(UserSearchRequest $request){
+    //     $search = $request->search;
+    //     $posts = Post::where('title', 'LIKE', '%' . $search . '%' )
+    //             ->orWhere('body', 'LIKE', '%' . $search . '%' )
+    //             ->orWhere('id', 'LIKE', '%' . $search . '%' )
+    //             ->orWhereHas('author', function ($query) use ($search) {
+    //                 $query->where('name', 'like', '%'.$search.'%');
+    //             })
+    //             ->orderBy('created_at','desc')->paginate(5);
 
-        return view('posts.index',compact('posts'));
-    }
+    //     return view('posts.index',compact('posts'));
+    // }
 
     
 }

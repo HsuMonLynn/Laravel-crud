@@ -12,8 +12,8 @@
             </div>
             <div class="col-md-4 ml-auto pl-5">
                 <div class="input-group mb-3">
-                    <form class="row ml-3" action="{{ route('users.search') }}" method="GET">
-                        <input type="text" name="search" />
+                    <form class="row ml-3" action="{{ route('users.index') }}" method="GET">
+                        <input type="text" name="search" value="{{ request('search') }}"/>
                         <button type="submit" class="btn btn-primary ml-1">Search</button>
                     </form>
                 </div>
@@ -26,6 +26,7 @@
         <p style="margin: 0">{{ $message }}</p>
     </div>
 @endif
+
 <table class="table table-bordered">
     <tr>
         <th>No</th>
@@ -33,8 +34,7 @@
         <th>Email</th>
         <th width="180px">Action</th>
     </tr>
-    @if($users->isNotEmpty())
-        @foreach($users as $user)
+        @forelse($users as $user)
             <tr>
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
@@ -49,12 +49,11 @@
                     </form>
                 </td>
             </tr>
-        @endforeach
-    @else
-        <div class="row justify-content-center">
-            <h2 class="text-info">No users found</h2>
-        </div>
-    @endif
+            @empty
+            <tr>
+                <td colspan="4"><h4 class="text-info row justify-content-center" >No users found.</h4></td>
+            </tr>
+            @endforelse
 </table>
     {!! $users->links() !!}
 @endsection
