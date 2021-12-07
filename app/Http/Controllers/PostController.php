@@ -34,8 +34,9 @@ class PostController extends Controller
      */
     public function create()
     {   
+        $post = new Post();
         $authors = User::all();
-        return view('posts.create',compact('authors'));
+        return view('posts.create',compact('authors','post'));
     }
 
     /**

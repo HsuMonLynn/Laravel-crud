@@ -32,8 +32,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('users.create');
+    {   
+        $user = new User();
+        return view('users.create',compact('user'));
     }
 
     /**
@@ -62,7 +63,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
-    {
+    {   
         return view('users.edit', compact('user'));
     }
 
