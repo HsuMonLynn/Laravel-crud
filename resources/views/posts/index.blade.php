@@ -45,7 +45,7 @@
             <tr>
                 <td>{{ $post->id }}</td>
                 <td>{{ $post->title }}</td>
-                <td>{{ $post->body }}</td>
+                <td>{{ Str::limit($post->body, 100)}} <a href="{{ route('posts.show',$post->id) }}">Details</a></td>
                 <td>{{ $post->author->name ?? 'None' }}</td>
                 <td>{{ $post->created_at->format('d-m-Y') }}</td>
                 <td>

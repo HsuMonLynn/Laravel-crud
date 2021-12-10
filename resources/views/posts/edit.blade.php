@@ -9,18 +9,7 @@
             <form action="{{ route('posts.update',$post->id) }}" method="POST">
                 @csrf
                 @method('PUT')
-                @include('posts.form')
-                    <div class="row col-12 pt-3 pb-3">
-                        <div class="col-md-4">
-                            <a class="btn btn-secondary" href="{{ route('posts.index') }}"> Back</a>
-                        </div>
-                        <div class="col-md-4 ml-auto">
-                            <div class="row justify-content-end">
-                                <button type="submit" class="btn btn-primary">Update</button>
-                            </div>
-                        </div>
-                    </div>
-                
+                @include('posts._form',['submitBtn'=>'Update'])
             </form>
         </div>
     </div>

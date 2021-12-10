@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
 use App\Models\Post;
@@ -33,10 +34,10 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
         $post = new Post();
         $authors = User::all();
-        return view('posts.create',compact('authors','post'));
+        return view('posts.create', compact('authors', 'post'));
     }
 
     /**
@@ -59,6 +60,19 @@ class PostController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $post = Post::findOrFail($id);
+        $authors = User::all();
+        return view('posts.show', compact('post', 'authors'));
+    }
+
+    /**
      * Show the form for editing the specified user.
      *
      * @param  int  $id
@@ -68,7 +82,7 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $authors = User::all();
-        return view('posts.edit', compact('post','authors'));
+        return view('posts.edit', compact('post', 'authors'));
     }
 
     /**
