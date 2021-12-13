@@ -10,12 +10,18 @@
             <div class="col-md-4">
                 <a class="btn btn-success " href="{{ route('users.create') }}"> Create New User</a>
             </div>
-            <div class="col-md-4 ml-auto pl-5">
-                <div class="input-group mb-3">
-                    <form class="row ml-3" action="{{ route('users.search') }}" method="GET">
-                        <input type="text" name="search" />
-                        <button type="submit" class="btn btn-primary ml-1">Search</button>
-                    </form>
+            <div class="row">
+                <div class="col-md-4">
+                    <a class="btn btn-success " href="{{ route('users.create') }}">Create New User</a>
+                </div>
+                <div class="col-md-4 ml-auto pl-5">
+                    <div class="input-group mb-3 justify-content-end">
+                        <form class="form-inline row ml-3" action="{{ route('users.index') }}" method="GET">
+                            <input class="form-control mr-sm-2" type="search" name="search"
+                                value="{{ request('search') }}" />
+                            <button type="submit" class="btn btn-outline-primary my-2 my-sm-0">Search</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
