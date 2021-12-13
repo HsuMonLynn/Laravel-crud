@@ -1,22 +1,29 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\UserStoreRequest;
-use App\Http\Requests\UserSearchRequest;
-use App\Http\Requests\UserUpdateRequest;
 
 class UserController extends Controller
-{   
+{
     /**
      * Display a listing of the users.
      *
      */
     public function index()
     {
-        $users = User::orderBy('created_at','desc')->paginate(5);
-        return view('users.index',compact('users'));    
+        $users = User::when($search = request('search'), function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'LIKE', '%' . $search . '%')
+                ->orWhere('id', 'LIKE', '%' . $search . '%');
+        })
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -26,7 +33,8 @@ class UserController extends Controller
      */
     public function create()
     {
-       return view('users.create');
+        $user = new User();
+        return view('users.create', compact('user'));
     }
 
     /**
@@ -37,15 +45,15 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        $user = User::create([
-                'name' => $request->name, 
-                'email' => $request->email,
-                'password' => Hash::make("password")
-            ]); 
-     
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make("password"),
+        ]);
+
         return redirect()
-                ->route('users.index')
-                ->with('success','User created successfully.');
+            ->route('users.index')
+            ->with('success', 'User created successfully.');
     }
 
     /**
@@ -56,7 +64,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit',compact('user'));
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -66,19 +74,20 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserUpdateRequest $request,User $user){
+    public function update(UserUpdateRequest $request, User $user)
+    {
         $user->update([
-                'name' => $request->name, 
-                'email' => $request->email,
-                'password' => Hash::make("password")
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make("password"),
         ]);
 
         return redirect()
-                ->route('users.index')
-                ->with('success','User updated suceessfully.');
+            ->route('users.index')
+            ->with('success', 'User updated suceessfully.');
 
     }
-    
+
     /**
      * Remove the specified user from storage.
      *
@@ -89,24 +98,8 @@ class UserController extends Controller
     {
         $user->delete();
         return redirect()
-                ->route('users.index')
-                ->with('success','User deleted successfully');
-    }
-
-    /**
-     * Search the specified user from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function search(UserSearchRequest $request)
-    {
-        $search = $request->search;
-        $users = User::where ( 'name', 'LIKE', '%' . $search . '%' )
-                ->orWhere ( 'email', 'LIKE', '%' . $search . '%' )
-                ->orWhere ( 'id', 'LIKE', '%' . $search . '%' )
-                ->orderBy('created_at','desc')->paginate(5);
-        return view('users.index',compact('users'));
+            ->route('users.index')
+            ->with('success', 'User deleted successfully');
     }
 
 }

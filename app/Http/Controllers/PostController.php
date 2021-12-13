@@ -1,24 +1,33 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Post;
+
 use App\Http\Requests\PostStoreRequest;
-use App\Http\Requests\UserSearchRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\Models\Post;
+use App\Models\User;
 
 class PostController extends Controller
-{   /**
-    * Display a listing of the posts.
-    *
-    */
+{/**
+ * Display a listing of the posts.
+ *
+ */
     public function index()
-    {   
-        
-        $posts = Post::orderBy('created_at','desc')->paginate(5);
+    {
+        $posts = Post::when($search = request('search'), function ($query) use ($search) {
+            $query->where('title', 'LIKE', '%' . $search . '%')
+                ->orWhere('body', 'LIKE', '%' . $search . '%')
+                ->orWhere('id', 'LIKE', '%' . $search . '%')
+                ->orWhereHas('author', function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                });
+        })
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
 
-        return view('posts.index',compact('posts'));    
+        return view('posts.index', compact('posts'));
     }
-    
+
     /**
      * Show the form for creating a new post.
      *
@@ -26,7 +35,9 @@ class PostController extends Controller
      */
     public function create()
     {
-       return view('posts.create');
+        $post = new Post();
+        $authors = User::all();
+        return view('posts.create', compact('authors', 'post'));
     }
 
     /**
@@ -37,15 +48,28 @@ class PostController extends Controller
      */
     public function store(PostStoreRequest $request)
     {
-        $post = Post::create([
-                'title' => $request->title, 
-                'body' => $request->body,
-                'user_id' => $request->user_id,           
-            ]); 
-     
+        Post::create([
+            'title' => $request->title,
+            'body' => $request->body,
+            'user_id' => $request->user_id,
+        ]);
+
         return redirect()
-                ->route('posts.index')
-                ->with('success','Posts created successfully.');
+            ->route('posts.index')
+            ->with('success', 'Posts created successfully.');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $post = Post::findOrFail($id);
+        $authors = User::all();
+        return view('posts.show', compact('post', 'authors'));
     }
 
     /**
@@ -55,10 +79,10 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {
         $post = Post::findOrFail($id);
-
-        return view('posts.edit',compact('post'));
+        $authors = User::all();
+        return view('posts.edit', compact('post', 'authors'));
     }
 
     /**
@@ -68,19 +92,19 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostUpdateRequest $request,$id){
-        
+    public function update(PostUpdateRequest $request, $id)
+    {
         $post = Post::findOrFail($id);
         $post->update([
 
-            'title' => $request->title, 
+            'title' => $request->title,
             'body' => $request->body,
-            'user_id' => $request->user_id 
+            'user_id' => $request->user_id,
         ]);
 
         return redirect()
-                ->route('posts.index')
-                ->with('success','Post updated suceessfully.');
+            ->route('posts.index')
+            ->with('success', 'Post updated suceessfully.');
 
     }
 
@@ -90,27 +114,14 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id){
+    public function destroy($id)
+    {
         $post = Post::find($id);
         $post->delete();
 
         return redirect()
-                ->route('posts.index')
-                ->with('success','Post Deleted successfully.');
+            ->route('posts.index')
+            ->with('success', 'Post Deleted successfully.');
     }
 
-    public function search(UserSearchRequest $request){
-        $search = $request->search;
-        $posts = Post::where('title', 'LIKE', '%' . $search . '%' )
-                ->orWhere('body', 'LIKE', '%' . $search . '%' )
-                ->orWhere('id', 'LIKE', '%' . $search . '%' )
-                ->orWhereHas('author', function ($query) use ($search) {
-                    $query->where('name', 'like', '%'.$search.'%');
-                })
-                ->orderBy('created_at','desc')->paginate(5);
-
-        return view('posts.index',compact('posts'));
-    }
-
-    
 }
