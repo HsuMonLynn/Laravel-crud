@@ -69,7 +69,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
             <a href="{{route('users.index')}}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa fa-user"></i>
               <p>
                 Users
               </p>
@@ -77,9 +77,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item">
             <a href="{{route('posts.index')}}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa fa-clipboard"></i>
               <p>
                 Posts
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('categories.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Categories
               </p>
             </a>
           </li>

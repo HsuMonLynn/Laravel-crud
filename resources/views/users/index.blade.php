@@ -8,11 +8,7 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-<<<<<<< HEAD
                     <a class="btn btn-success " href="{{ route('users.create') }}">Create New User</a>
-=======
-                    <a class="btn btn-success " href="{{ route('users.create') }}"> Create New User</a>
->>>>>>> 9a13bb36512f160939e61d91cea1f3b358a04f41
                 </div>
                 <div class="col-md-4 ml-auto pl-5">
                     <div class="input-group mb-3 justify-content-end">

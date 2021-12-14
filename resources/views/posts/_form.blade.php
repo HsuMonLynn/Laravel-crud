@@ -37,6 +37,24 @@
             @endif
         </div>
     </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
+            <strong>Categories</strong>
+            <select name="categories_id[]" class="form-control @error('categories_id[]')
+            is-invalid @enderror" multiple>
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}"
+                    @if($postCategories->contains($category->id))
+                    selected
+                    @endif>
+                        {{ $category->name }}</option>
+                @endforeach
+            </select>
+            @if($errors->has('user_id'))
+                <span class="error text-danger text-bold">{{ $errors }}</span>
+            @endif
+        </div>
+    </div>
     <div class="row col-12 pt-3 pb-3">
         <div class="col-md-4">
             <a class="btn btn-secondary" href="{{ route('posts.index') }}"> Back</a>

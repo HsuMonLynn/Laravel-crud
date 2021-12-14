@@ -62,8 +62,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
+        $user = User::findOrFail($id);
         return view('users.edit', compact('user'));
     }
 
@@ -74,8 +75,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserUpdateRequest $request, User $user)
-    {
+    public function update(UserUpdateRequest $request, $id)
+    {   
+        $user = User::findOrFail($id);
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
@@ -94,8 +96,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
-    {
+    public function destroy($id)
+    {   
+        $user = User::find($id);
         $user->delete();
         return redirect()
             ->route('users.index')

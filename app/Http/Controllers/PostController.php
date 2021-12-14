@@ -6,6 +6,8 @@ use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Category;
+
 
 class PostController extends Controller
 {/**
@@ -20,11 +22,13 @@ class PostController extends Controller
                 ->orWhere('id', 'LIKE', '%' . $search . '%')
                 ->orWhereHas('author', function ($query) use ($search) {
                     $query->where('name', 'like', '%' . $search . '%');
+                })
+                ->orWhereHas('categories', function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%');
                 });
         })
             ->orderBy('created_at', 'desc')
             ->paginate(5);
-
         return view('posts.index', compact('posts'));
     }
 
@@ -37,7 +41,9 @@ class PostController extends Controller
     {
         $post = new Post();
         $authors = User::all();
-        return view('posts.create', compact('authors', 'post'));
+        $categories = Category::all();
+        $postCategories = $post->categories->pluck('id');
+        return view('posts.create', compact('authors', 'post','categories','postCategories'));
     }
 
     /**
@@ -48,11 +54,12 @@ class PostController extends Controller
      */
     public function store(PostStoreRequest $request)
     {
-        Post::create([
+        $post = Post::create([
             'title' => $request->title,
             'body' => $request->body,
             'user_id' => $request->user_id,
         ]);
+        $post->categories()->attach($request->input('categories_id', []));
 
         return redirect()
             ->route('posts.index')
@@ -82,7 +89,9 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $authors = User::all();
-        return view('posts.edit', compact('post', 'authors'));
+        $categories = Category::all();
+        $postCategories = $post->categories->pluck('id');
+        return view('posts.edit', compact('post', 'authors','categories','postCategories'));
     }
 
     /**
