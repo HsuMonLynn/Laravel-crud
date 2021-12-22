@@ -45,11 +45,13 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make("password"),
         ]);
+
+        $user->profile()->create();
 
         return redirect()
             ->route('users.index')

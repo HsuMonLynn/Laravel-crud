@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
@@ -34,6 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::get('categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
     Route::put('categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
+    //profile
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('profile/{id}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
   
 });
 Route::auth();
