@@ -27,6 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::get('posts/{id}', [PostController::class, 'show'])->name('posts.show');
     Route::delete('posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
     Route::get('posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::post('posts/import', [PostController::class, 'import'])->name('posts.import');
+    Route::get('posts/export', [PostController::class, 'export'])->name('posts.export');
 
     //categories
     Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
@@ -40,6 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('profile/{id}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
+
+    //post
+    
   
 });
 Route::auth();

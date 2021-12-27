@@ -1,13 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
-use App\Models\Category;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PostsExport;
+use App\Imports\PostsImport;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {/**
@@ -43,7 +46,7 @@ class PostController extends Controller
         $authors = User::all();
         $categories = Category::all();
         $postCategories = $post->categories->pluck('id');
-        return view('posts.create', compact('authors', 'post','categories','postCategories'));
+        return view('posts.create', compact('authors', 'post', 'categories', 'postCategories'));
     }
 
     /**
@@ -91,7 +94,7 @@ class PostController extends Controller
         $authors = User::all();
         $categories = Category::all();
         $postCategories = $post->categories->pluck('id');
-        return view('posts.edit', compact('post', 'authors','categories','postCategories'));
+        return view('posts.edit', compact('post', 'authors', 'categories', 'postCategories'));
     }
 
     /**
@@ -110,6 +113,7 @@ class PostController extends Controller
             'body' => $request->body,
             'user_id' => $request->user_id,
         ]);
+        $post->categories()->sync($request->input('categories_id', []));
 
         return redirect()
             ->route('posts.index')
@@ -131,6 +135,17 @@ class PostController extends Controller
         return redirect()
             ->route('posts.index')
             ->with('success', 'Post Deleted successfully.');
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new PostsImport(), $request->file('file'));
+        return redirect()->route('posts.index')
+            ->with('success', 'Products has been imported');
+    }
+    public function export()
+    {
+        return Excel::download(new PostsExport, 'products.xlsx');
     }
 
 }

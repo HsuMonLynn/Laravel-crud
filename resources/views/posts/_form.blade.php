@@ -25,7 +25,7 @@
             <strong>Author</strong>
             <select name="user_id" class="form-control @error('user_id')
             is-invalid @enderror">
-                <option>Select Author</option>
+                <option disabled selected>Select Author</option>
                 @foreach($authors as $author)
                     <option value="{{ $author->id }}"
                         {{ $author->id === $post->user_id ? 'selected' : '' }}>
@@ -33,14 +33,14 @@
                 @endforeach
             </select>
             @if($errors->has('user_id'))
-                <span class="error text-danger text-bold">{{ $errors }}</span>
+                <span class="error text-danger text-bold">{{ $errors->first('user_id') }}</span>
             @endif
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Categories</strong>
-            <select name="categories_id[]" class="form-control @error('categories_id[]')
+            <select name="categories_id" class="form-control @error('categories_id')
             is-invalid @enderror" multiple>
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}"
@@ -50,8 +50,8 @@
                         {{ $category->name }}</option>
                 @endforeach
             </select>
-            @if($errors->has('user_id'))
-                <span class="error text-danger text-bold">{{ $errors }}</span>
+            @if($errors->has('categories_id'))
+                <span class="error text-danger text-bold">{{ $errors->first('categories_id') }}</span>
             @endif
         </div>
     </div>

@@ -48,7 +48,7 @@
                         <a class="btn btn-outline-info mr-3" href="{{ route('users.edit', $user->id) }}">Edit</a>
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger"
+                        <button type="submit" class="btn btn-outline-danger" @if($user->id === auth()->id()) disabled @endif
                             onclick="return confirm('Are you sure want to delete?')">Delete</button>
                     </form>
                 </td>

@@ -78,7 +78,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UserUpdateRequest $request, $id)
-    {   
+    {
         $user = User::findOrFail($id);
         $user->update([
             'name' => $request->name,
@@ -99,9 +99,10 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {   
+    {
         $user = User::find($id);
         $user->delete();
+        $user->posts()->delete();
         return redirect()
             ->route('users.index')
             ->with('success', 'User deleted successfully');
