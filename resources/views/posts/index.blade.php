@@ -28,7 +28,7 @@
             <div class="form-group">
                <div class="row">
                <div class="col-10">
-                     <input type="file" name="file" class="form-control" style="padding:0px">
+                     <input type="file" name="post_file" class="form-control" style="padding:0px">
                 </div>
                 <div class="col-2">
                     <button class="btn btn-success">Import</button>
@@ -40,24 +40,6 @@
                 
                 </form>
             </div>
-            
-            <!-- <form action="" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="custom-file text-left">
-                                <input type="file" name="file" class="custom-file-input" id="customFile">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
-                            </div>    
-                        </div>
-                        <div class="col-md-6">
-                            <button class="btn btn-primary" style="width: 100px">Import</button>
-                            <a class="btn btn-success" href="" style="width: 100px">Export</a>
-                        </div>
-                    </div>
-                </div>
-            </form> -->
 
         </div>
     </div>
@@ -78,7 +60,6 @@
         <th>Title</th>
         <th width="300px">Body</th>
         <th>Category</th>
-        <th>Author</th>
         <th>Date</th>
         <th width="160px">Action</th>
     </tr>
@@ -89,7 +70,6 @@
             <td>{{ Str::limit($post->body, 100) }} <a
                     href="{{ route('posts.show',$post->id) }}">Details</a></td>
             <td>@foreach($post->categories as $category){{ $category->name }}<br>@endforeach</td>
-            <td>{{ $post->author->name ?? 'None' }}</td>
             <td>{{ $post->created_at->format('d-m-Y') }}</td>
             <td>
                 <form action="{{ route('posts.destroy', $post->id) }}" method="POST">

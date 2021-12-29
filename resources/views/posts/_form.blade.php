@@ -20,7 +20,7 @@
             <span class="error text-danger text-bold">{{ $errors->first('body') }}</span>
         @endif
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
+    <!-- <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Author</strong>
             <select name="user_id" class="form-control @error('user_id')
@@ -36,7 +36,7 @@
                 <span class="error text-danger text-bold">{{ $errors->first('user_id') }}</span>
             @endif
         </div>
-    </div>
+    </div> -->
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Categories</strong>

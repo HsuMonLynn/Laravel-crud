@@ -30,6 +30,7 @@ class PostController extends Controller
                     $query->where('name', 'like', '%' . $search . '%');
                 });
         })
+            ->where('user_id','=',Auth::user()->id)
             ->orderBy('created_at', 'desc')
             ->paginate(5);
         return view('posts.index', compact('posts'));
@@ -60,7 +61,7 @@ class PostController extends Controller
         $post = Post::create([
             'title' => $request->title,
             'body' => $request->body,
-            'user_id' => $request->user_id,
+            'user_id' => Auth::user()->id,
         ]);
         $post->categories()->attach($request->input('categories_id', []));
 
@@ -111,7 +112,7 @@ class PostController extends Controller
 
             'title' => $request->title,
             'body' => $request->body,
-            'user_id' => $request->user_id,
+            'user_id' => Auth::user()->id,
         ]);
         $post->categories()->sync($request->input('categories_id', []));
 
@@ -138,10 +139,14 @@ class PostController extends Controller
     }
 
     public function import(Request $request)
-    {
-        Excel::import(new PostsImport(), $request->file('file'));
+    {   
+        $csvFile = $request->file('post_file')->storeAs('csvFile','post_file.csv');
+        $import = new PostsImport();
+    
+        $import->import($csvFile);
+        // $file = Excel::import(new PostsImport(), $request->file('post_file'));  
         return redirect()->route('posts.index')
-            ->with('success', 'Products has been imported');
+            ->with('success', 'Posts has been imported');
     }
     public function export()
     {
