@@ -23,21 +23,29 @@
         </div>
         <div class="row mb-2">
             <div class="col-md-12">
-            <form action="{{route('posts.import')}}" method="POST" enctype="multipart/form-data">
-            @csrf  
-            <div class="form-group">
-               <div class="row">
-               <div class="col-10">
-                     <input type="file" name="post_file" class="form-control" style="padding:0px">
-                </div>
-                <div class="col-2">
-                    <button class="btn btn-success">Import</button>
-                    <a class="btn btn-info ml-4" href="{{route('posts.export')}}">Export</a>
-                </div>
-               </div>
-                
-            </div> 
-                
+                <form action="{{ route('posts.import') }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-10">
+                                <input type="file" name="post_file" class="form-control" style="padding:0px">
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-success">Import</button>
+                                <a class="btn btn-info ml-4"
+                                    href="{{ route('posts.export') }}">Export</a>
+                            </div>
+                        </div>
+                        <div class="row text-danger">
+                            @if($errors->has('post_file'))
+                                <div class="error">
+                                    {{ $errors->first('post_file') }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
                 </form>
             </div>
 
@@ -53,7 +61,20 @@
         </button>
     </div>
 @endif
-
+@if (session('error'))
+                <div class="alert alert-danger">
+                    <p>{{ session('error') }}</p>
+                </div>
+            @endif
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <table class="table table-bordered">
     <tr>
         <th>ID</th>
@@ -73,7 +94,7 @@
             <td>{{ $post->created_at->format('d-m-Y') }}</td>
             <td>
                 <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
-                    <a class="btn btn-outline-info mr-2" 
+                    <a class="btn btn-outline-info mr-2"
                         href="{{ route('posts.edit', $post->id) }}">Edit</a>
                     @csrf
                     @method('DELETE')

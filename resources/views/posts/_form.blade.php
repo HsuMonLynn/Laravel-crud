@@ -40,7 +40,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Categories</strong>
-            <select name="categories_id" class="form-control @error('categories_id')
+            <select name="categories_id[]" class="form-control @error('categories_id')
             is-invalid @enderror" multiple>
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}"

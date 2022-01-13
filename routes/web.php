@@ -28,8 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
     Route::get('posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::post('posts/import', [PostController::class, 'import'])->name('posts.import');
-    Route::get('posts/export', [PostController::class, 'export'])->name('posts.export');
-
+    Route::get('export-csv', [PostController::class, 'export'])->name('posts.export');
     //categories
     Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
