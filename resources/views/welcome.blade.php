@@ -43,6 +43,9 @@
                                 <div class="col-md-2">
                                     <h5 class="font-weight-bold">{{ $post->author->name }}</h5>
                                 </div>
+                                <div class="col-md-2">
+                                    <h5 class="font-weight-bold">Nothing</h5>
+                                </div>
                             </div>
                         </div>
                         @empty
